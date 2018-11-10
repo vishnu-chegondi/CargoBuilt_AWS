@@ -1,0 +1,47 @@
+---
+  -
+    hosts: local_machine
+    tasks:
+      -
+        name: create a AWS vpc
+        ec2_vpc_net:
+          aws_access_key: "{{aws_access_key}}"
+          aws_secret_key: "{{aws_secret_key}}"
+          name: "{{name}}"
+          state: present
+          region: "{{region}}"
+          cidr_block: "{{cidr_block}}"
+        register: cargo_vpc
+
+      # - 
+      #   name: create a subnet
+      #   ec2_vpc_subnet:
+      #     state: present
+      #     vpc_id: "{{vpc_id}}"
+      #     cidr: "{{subnet_cidr}}"
+      #   register: cargo_public_subnet
+      
+      # -
+      #   name: create a igw table
+      #   ec2_vpc_igw:
+      #     state: present
+      #     vpc_id: "{{vpc_id}}"
+      #   register: cargo_igw
+
+      # - 
+      #   name: create router
+      #   ec2_vpc_route_table:
+      #     vpc_id: "{{vpc_id}}"
+      #     region: "{{region}}"
+      #     tags:
+      #       Name: Public
+      #     subnets:
+      #       - "{{ cargo_subnet.subnet.id }}"
+      #     routes:
+      #       - dest: 0.0.0.0/0
+      #         gateway_id: "{{cargo_igw.gateway_id}}"
+      #     register: cargo_public_router
+
+      -
+        name: stage value logs
+        local_action: template src=templates/stage_values.j2 dest=./stage_values.log 
