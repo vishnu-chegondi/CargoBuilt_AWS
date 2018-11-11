@@ -14,7 +14,7 @@
       -
         name: create security groups
         ec2_group:
-          description: supports {{item}} for jenkins and web dev
+          description: supports for jenkins and web dev
           aws_access_key: "{{aws_access_key}}"
           aws_secret_key: "{{aws_secret_key}}"
           name: "{{name}}"
@@ -32,11 +32,14 @@
       - 
         name: create ec2
         ec2:
-          my_key: '{{name}}'
+          key_name: '{{name}}'
+          aws_access_key: "{{aws_access_key}}"
+          aws_secret_key: "{{aws_secret_key}}"
           group_id: "{{ security_group.results[0].group_id }}"
           instance_type: "{{instance_type}}"
           image: "{{image}}"
           count: "{{count}}"
+          region: "{{region}}"
           vpc_subnet_id: "{{cargo_public_subnet.subnet.id}}"
           assign_public_ip: "{{assign_public_ip}}"
         register: cargo_ec2
