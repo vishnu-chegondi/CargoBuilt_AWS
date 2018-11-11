@@ -8,7 +8,7 @@
 
     "subnet_cidr":"10.0.0.0/28",
 
-    "ports": "[80,8080]",
+    "ports": [80,8080],
 
     "instance_type":"t2.micro",
     "image": "ami-06b5810be11add0e2",
