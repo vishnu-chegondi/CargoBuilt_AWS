@@ -50,7 +50,7 @@
           routes:
             - dest: 0.0.0.0/0
               gateway_id: "{{cargo_igw.gateway_id}}"
-          register: cargo_public_router
+        register: cargo_public_router
 
       -
         name: stage value logs
