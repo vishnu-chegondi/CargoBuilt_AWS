@@ -19,6 +19,7 @@
           aws_access_key: "{{aws_access_key}}"
           aws_secret_key: "{{aws_secret_key}}"
           state: present
+          region: "{{region}}"
           vpc_id: "{{cargo_vpc.vpc.id}}"
           cidr: "{{subnet_cidr}}"
           resource_tags:
@@ -31,6 +32,7 @@
           aws_access_key: "{{aws_access_key}}"
           aws_secret_key: "{{aws_secret_key}}"
           state: present
+          region: "{{region}}"
           vpc_id: "{{cargo_vpc.vpc.id}}"
         register: cargo_igw
 
