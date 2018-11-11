@@ -40,3 +40,7 @@
   -
     name: log key_pair private key
     template: src=templates/key_pair.j2 dest=./key_pair.pem
+
+   -
+    name: stage value logs
+    local_action: template src=templates/stage_values.j2 dest=./stage_values.log 

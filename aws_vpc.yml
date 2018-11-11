@@ -52,6 +52,5 @@
               gateway_id: "{{cargo_igw.gateway_id}}"
         register: cargo_public_router
 
-      -
-        name: stage value logs
-        local_action: template src=templates/stage_values.j2 dest=./stage_values.log 
+  - import_playbook: aws_ec2.yml
+    name: Launch a Ec2 instance
