@@ -1,5 +1,35 @@
-Caro VPC
---------------
+Cargo VPC
+----------------------------------
 
 {{cargo_vpc}}
 
+
+Cargo Public Subnet 
+----------------------------------
+
+{{cargo_public_subnet}}
+
+
+Cargo Internet Gateway
+----------------------------------
+
+{{cargo_igw}}
+
+
+Cargo Router Table
+----------------------------------
+
+{{cargo_public_router}}
+
+
+Cargo Security Group
+----------------------------------
+
+{% for i in security_group.results%}
+    {{i}}
+{% endfor %}
+
+Cargo Instances
+----------------------------------
+
+{{cargo_ec2}}

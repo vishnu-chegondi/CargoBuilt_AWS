@@ -13,35 +13,44 @@
           cidr_block: "{{cidr_block}}"
         register: cargo_vpc
 
-      # - 
-      #   name: create a subnet
-      #   ec2_vpc_subnet:
-      #     state: present
-      #     vpc_id: "{{vpc_id}}"
-      #     cidr: "{{subnet_cidr}}"
-      #   register: cargo_public_subnet
+      - 
+        name: create a subnet
+        ec2_vpc_subnet:
+          aws_access_key: "{{aws_access_key}}"
+          aws_secret_key: "{{aws_secret_key}}"
+          state: present
+          region: "{{region}}"
+          vpc_id: "{{cargo_vpc.vpc.id}}"
+          cidr: "{{subnet_cidr}}"
+          resource_tags:
+            Name: "{{name}}"
+        register: cargo_public_subnet
       
-      # -
-      #   name: create a igw table
-      #   ec2_vpc_igw:
-      #     state: present
-      #     vpc_id: "{{vpc_id}}"
-      #   register: cargo_igw
-
-      # - 
-      #   name: create router
-      #   ec2_vpc_route_table:
-      #     vpc_id: "{{vpc_id}}"
-      #     region: "{{region}}"
-      #     tags:
-      #       Name: Public
-      #     subnets:
-      #       - "{{ cargo_subnet.subnet.id }}"
-      #     routes:
-      #       - dest: 0.0.0.0/0
-      #         gateway_id: "{{cargo_igw.gateway_id}}"
-      #     register: cargo_public_router
-
       -
-        name: stage value logs
-        local_action: template src=templates/stage_values.j2 dest=./stage_values.log 
+        name: create a igw table
+        ec2_vpc_igw:
+          aws_access_key: "{{aws_access_key}}"
+          aws_secret_key: "{{aws_secret_key}}"
+          state: present
+          region: "{{region}}"
+          vpc_id: "{{cargo_vpc.vpc.id}}"
+        register: cargo_igw
+
+      - 
+        name: create router
+        ec2_vpc_route_table:
+          aws_access_key: "{{aws_access_key}}"
+          aws_secret_key: "{{aws_secret_key}}"
+          vpc_id: "{{cargo_vpc.vpc.id}}"
+          region: "{{region}}"
+          tags:
+            Name: Public
+          subnets:
+            - "{{ cargo_public_subnet.subnet.id }}"
+          routes:
+            - dest: 0.0.0.0/0
+              gateway_id: "{{cargo_igw.gateway_id}}"
+        register: cargo_public_router
+
+  - import_playbook: aws_ec2.yml
+    name: Launch a Ec2 instance
